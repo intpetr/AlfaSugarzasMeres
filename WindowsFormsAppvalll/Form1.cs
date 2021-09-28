@@ -22,6 +22,7 @@ using OpenCvSharp.Extensions;
 using WindowsFormsAppvalll;
 using System.Threading;
 using System.IO;
+using System.Drawing.Imaging;
 
 namespace AforgeCam
 {
@@ -189,7 +190,8 @@ namespace AforgeCam
             
             //MessageBox.Show(exceptions);
             motorfok();
-            MessageBox.Show(ev3value);
+            //MessageBox.Show(ev3value);
+            MessageBox.Show(eredmenyek);
             //brick.Ports[InputPort.One].SetMode(MotorMode.Degrees);
         }
 
@@ -212,8 +214,7 @@ namespace AforgeCam
                 FinalVideo = new VideoCaptureDevice(VideoCaptureDevices[0].MonikerString);
                 FinalVideo.NewFrame += new NewFrameEventHandler(FinalVideo_NewFrame);
 
-               
-                
+
 
 
                 FinalVideo.Start();
@@ -233,7 +234,7 @@ namespace AforgeCam
                // listBox1.Items.Add("Távolság: " + degreesTocm + " Pixelek " + finalresults);
 
                 measurements.Clear();
-                saveData();
+                
 
             });
             thread.Start();
@@ -253,7 +254,7 @@ namespace AforgeCam
 
 
 
-            listBox1.Items.Add("Távolság: "+degreesTocm + " Pixelek " + finalresults);
+            listBox1.Items.Add("Távolság: "+degreesTocm + " Pixelek " + finalresults+" Ido: "+ textBox1.Text);
             finalresults = 0;
 
             measurements.Clear();
@@ -340,6 +341,7 @@ namespace AforgeCam
 
             finalresults += count;
            measurement.Add(count+"  "+degreesTocm.ToString());
+            saveData();
            // label1.Text = count.ToString();
         }
 
@@ -425,9 +427,9 @@ namespace AforgeCam
             label3.Text = highestBrightnessValue.ToString();
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private async void button5_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image= new visualizer(coordinates, 8000, 8000, System.Drawing.Color.Red).getiImage();
+             pictureBox1.Image= new visualizer(coordinates, 8000, 8000, System.Drawing.Color.Red).getiImage();
 
             
             
@@ -437,14 +439,14 @@ namespace AforgeCam
 
         private async void button6_Click(object sender, EventArgs e)
         {
-
+            pictureBox1.Image.Save("myfile.bmp", ImageFormat.Bmp);
 
             //saveDataToTxt();
         }
 
         public void saveData()
         {
-            eredmenyek += "\nTávolság " + degreesTocm + "Pixelek  " + finalresults + "Idő " + textBox1.Text;
+            eredmenyek = eredmenyek+ "\nTávolság " + degreesTocm + "Pixelek  " + finalresults + "Idő " + textBox1.Text;
 
         }
 
