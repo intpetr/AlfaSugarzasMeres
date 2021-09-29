@@ -64,6 +64,7 @@ namespace AforgeCam
         List<Bitmap> bitmaps = new List<Bitmap>();
 
         Brick brick = null;
+        Boolean BrickConnected = false;
 
 
         List<System.Drawing.Point> coordinates = new List<System.Drawing.Point>();
@@ -90,9 +91,8 @@ namespace AforgeCam
                 {
                     //label1.Text = ("Csatlakoztasd a webkamerát és indítsd újra a programot!");
                 }
-                trurnmotor();
-               
-                
+                connectToBrick();
+                label3.Text = "0.5";
             }
 
             
@@ -106,25 +106,41 @@ namespace AforgeCam
             motordegrees = e.Ports[InputPort.A].SIValue;
             
               //  MessageBox.Show(e.Ports[InputPort.A].SIValue.ToString());
-            label1.Text = e.Ports[InputPort.A].SIValue.ToString();
+            //label1.Text = e.Ports[InputPort.A].SIValue.ToString();
 
             degreesTocm = motordegrees / 109;
-            
-               
+            label4.Text = "Távolság: "+ Math.Round(degreesTocm);
+
+
 
         }
 
-        public async void trurnmotor()
+        public async void connectToBrick()
         {
             brick = new Brick(new UsbCommunication());
-           
-               /// await brick.ConnectAsync();
-            
-            
-            brick.Ports[InputPort.A].SetMode(MotorMode.Degrees);
-            brick.Ports[InputPort.One].SetMode(UltrasonicMode.Centimeters);
 
-            brick.BrickChanged += Brick_BrickChanged;
+
+            try
+            {
+                await brick.ConnectAsync();
+                BrickConnected = true;
+                checkBox1.Checked = true;
+                label2.Text = "Az EV3 csatlakoztatva van";
+
+                brick.Ports[InputPort.A].SetMode(MotorMode.Degrees);
+                brick.Ports[InputPort.One].SetMode(UltrasonicMode.Centimeters);
+
+                brick.BrickChanged += Brick_BrickChanged;
+            }
+            catch
+            {
+                checkBox1.Checked = false;
+                BrickConnected = false;
+                label2.Text = "Nem sikerült csatlakozni az EV3 hoz";
+            }
+                
+            
+          
 
         }
 
@@ -153,7 +169,7 @@ namespace AforgeCam
 
             fps++;
              
-            if(fps == 3)
+            if(fps == 1)
             {
                 
                  image((Bitmap)eventArgs.Frame.Clone());
@@ -191,6 +207,8 @@ namespace AforgeCam
             //MessageBox.Show(exceptions);
             motorfok();
             //MessageBox.Show(ev3value);
+
+            
             MessageBox.Show(eredmenyek);
             //brick.Ports[InputPort.One].SetMode(MotorMode.Degrees);
         }
@@ -229,8 +247,16 @@ namespace AforgeCam
             Thread thread = new Thread(async() =>
             {
                 System.Threading.Thread.Sleep(Int32.Parse(textBox1.Text)*1000);
+                try
+                {
 
-                FinalVideo.Stop();
+
+                    FinalVideo.Stop();
+                }
+                catch
+                {
+                    label2.Text = "A mérés nem volt elindítva";
+                }
                // listBox1.Items.Add("Távolság: " + degreesTocm + " Pixelek " + finalresults);
 
                 measurements.Clear();
@@ -246,7 +272,12 @@ namespace AforgeCam
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            FinalVideo.Stop();
+
+            if (FinalVideo != null)
+            {
+                FinalVideo.Stop();
+            }
+              
             // label1.Text = count.ToString();
             int count2 = 0;
 
@@ -254,7 +285,8 @@ namespace AforgeCam
 
 
 
-            listBox1.Items.Add("Távolság: "+degreesTocm + " Pixelek " + finalresults+" Ido: "+ textBox1.Text);
+            listBox1.Items.Add("Távolság: "+degreesTocm +"  " + " Pixelek " + finalresults + "  " + "  Ido: "+ textBox1.Text);
+            saveData();
             finalresults = 0;
 
             measurements.Clear();
@@ -341,7 +373,7 @@ namespace AforgeCam
 
             finalresults += count;
            measurement.Add(count+"  "+degreesTocm.ToString());
-            saveData();
+           // saveData();
            // label1.Text = count.ToString();
         }
 
@@ -403,7 +435,8 @@ namespace AforgeCam
              currentAngle = motordegrees-50;
 
             // await brick.DirectCommand.TurnMotorAtPowerAsync(OutputPort.A, 30);
-            await brick.DirectCommand.TurnMotorAtPowerForTimeAsync(OutputPort.A, -30, 700, true);
+            await brick.DirectCommand.TurnMotorAtPowerForTimeAsync(OutputPort.A, -50, 350, false);
+            
             /*while (motordegrees < currentAngle)
             {
                 await brick.DirectCommand.StopMotorAsync(OutputPort.A, true);
@@ -417,7 +450,7 @@ namespace AforgeCam
         private async void button4_Click_1(object sender, EventArgs e)
         {
            // await brick.DirectCommand.StopMotorAsync(OutputPort.A, true);
-            await brick.DirectCommand.TurnMotorAtPowerForTimeAsync(OutputPort.A, 30, 700, true);
+            await brick.DirectCommand.TurnMotorAtPowerForTimeAsync(OutputPort.A, 50, 350, false);
         }
 
         private void trackBar1_Scroll_1(object sender, EventArgs e)
@@ -429,8 +462,27 @@ namespace AforgeCam
 
         private async void button5_Click(object sender, EventArgs e)
         {
-             pictureBox1.Image= new visualizer(coordinates, 8000, 8000, System.Drawing.Color.Red).getiImage();
+            //Point point = new System.Drawing 
+            // coordinates.Add(new System.Drawing.Point(5, 5));
+            Thread thread = new Thread(async () =>
+            {
 
+                pictureBox1.Image = new visualizer(coordinates, 8000, 8000, System.Drawing.Color.Red).getiImage();
+
+            });
+            thread.Start();
+
+
+           
+
+
+            
+
+
+
+
+            
+            
             
             
 
@@ -439,14 +491,32 @@ namespace AforgeCam
 
         private async void button6_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image.Save("myfile.bmp", ImageFormat.Bmp);
+            Console.WriteLine("megnyomtad a gmobot");
+
+
+
+            TextWriter txt = new StreamWriter("C:\\demo\\demo.txt");
+            txt.Write(eredmenyek);
+            txt.Close();
+
+            Bitmap thisimage;
+            thisimage = (Bitmap)pictureBox1.Image;
+            thisimage.Save("kep", ImageFormat.Bmp);
+
+
+
+
+
+
+
+            //pictureBox1.Image.Save("myfile.bmp", ImageFormat.Bmp);
 
             //saveDataToTxt();
         }
 
         public void saveData()
         {
-            eredmenyek = eredmenyek+ "\nTávolság " + degreesTocm + "Pixelek  " + finalresults + "Idő " + textBox1.Text;
+            eredmenyek = eredmenyek+ "\nTávolság " + degreesTocm + " Pixelek  " + finalresults + " Idő " + textBox1.Text;
 
         }
 
@@ -458,7 +528,25 @@ namespace AforgeCam
 
         }
 
+        private async void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if(BrickConnected == false)
+            {
 
+                 connectToBrick();
+                
+
+            }
+            else
+            {
+                label2.Text = "Az EV3 már csatlakoztatva van.";
+            }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

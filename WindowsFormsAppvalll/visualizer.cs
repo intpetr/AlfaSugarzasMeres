@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace WindowsFormsAppvalll
 {
@@ -27,43 +29,53 @@ namespace WindowsFormsAppvalll
 
             this.coordinates = points;
 
+
+
             prepareList(points);
             
-            createImage(coordinatesAndValues, x, y, color);
+             createImage(coordinatesAndValues, x, y, color);
 
         }
 
         public void prepareList(List<Point> points)
         {
-            Console.WriteLine("it started");
 
-            while (points.Count > 2)
-            {
-                Console.WriteLine(points.Count);
-                Point currentPoint = points.First();
 
-                points.Remove(points.First());
+           
 
-                int matches = 1;
+                Console.WriteLine("it started");
 
-                for (int i = 0; i < points.Count; i++)
+                while (points.Count > 0)
                 {
-                    
-                    if (points[i].X == currentPoint.X && points[i].Y == currentPoint.Y)
+                    Console.WriteLine(points.Count);
+                    Point currentPoint = points.First();
+
+                    points.Remove(points.First());
+
+                    int matches = 1;
+
+                    for (int i = 0; i < points.Count; i++)
                     {
-                        points.Remove(points[i]);
-                        matches++;
+
+                        if (points[i].X == currentPoint.X && points[i].Y == currentPoint.Y)
+                        {
+                            points.Remove(points[i]);
+                            matches++;
+                        }
+
+
                     }
 
-
-                }
-
-                coordinatesAndValues.Add(currentPoint, matches);
+                    coordinatesAndValues.Add(currentPoint, matches);
 
                 currentPoint.X = 0;
                 currentPoint.Y = 0;
-               
-            }
+
+
+
+                }
+          
+
             
         }
 
@@ -85,6 +97,7 @@ namespace WindowsFormsAppvalll
             Graphics g = Graphics.FromImage(image);
             g.Clear(Color.Black);
 
+            string teszt = "";
 
 
             foreach (var coordinate in coordinates)
@@ -100,34 +113,31 @@ namespace WindowsFormsAppvalll
                 switch (coordinate.Value)
                 {
 
-                    case 0:
-
-                        image.SetPixel(coordinate.Key.X, coordinate.Key.Y, Color.Green);
-                        break;
+                   
 
                     case 1:
 
-                        image.SetPixel(coordinate.Key.X, coordinate.Key.Y, Color.Gray);
+                        image.SetPixel(coordinate.Key.X, coordinate.Key.Y, Color.White);
                         break;
 
                     case 2:
 
-                        image.SetPixel(coordinate.Key.X, coordinate.Key.Y, Color.Purple);
+                        image.SetPixel(coordinate.Key.X, coordinate.Key.Y, Color.LightBlue);
                         break;
 
                     case 3:
 
-                        image.SetPixel(coordinate.Key.X, coordinate.Key.Y, Color.Orange);
+                        image.SetPixel(coordinate.Key.X, coordinate.Key.Y, Color.Red);
                         break;
 
                     case 4:
 
-                        image.SetPixel(coordinate.Key.X, coordinate.Key.Y, Color.Red);
+                        image.SetPixel(coordinate.Key.X, coordinate.Key.Y, Color.Orange);
                         break;
 
                     default:
 
-                        image.SetPixel(coordinate.Key.X, coordinate.Key.Y, Color.Coral);
+                        image.SetPixel(coordinate.Key.X, coordinate.Key.Y, Color.Green);
 
                         break;
 
@@ -139,11 +149,11 @@ namespace WindowsFormsAppvalll
 
             }
 
-
+            
             completeImage = image;
+           
 
-
-           // Graphics g = Graphics.FromImage(image);
+            // Graphics g = Graphics.FromImage(image);
             //g.Clear(Color.Black);
 
 
@@ -207,7 +217,7 @@ namespace WindowsFormsAppvalll
 
             completeImage =  image;
 
-            */
+            //*/
         }
 
 
