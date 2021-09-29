@@ -45,38 +45,44 @@ namespace WindowsFormsAppvalll
 
                 Console.WriteLine("it started");
 
-                while (points.Count > 0)
+            while (points.Count > 1)
+            {
+                Console.WriteLine(points.Count);
+                Point currentPoint = points.First();
+
+                points.Remove(points.First());
+
+                int matches = 1;
+
+                for (int i = 0; i < points.Count; i++)
                 {
-                    Console.WriteLine(points.Count);
-                    Point currentPoint = points.First();
 
-                    points.Remove(points.First());
-
-                    int matches = 1;
-
-                    for (int i = 0; i < points.Count; i++)
+                    if (points[i] == currentPoint)
                     {
-
-                        if (points[i].X == currentPoint.X && points[i].Y == currentPoint.Y)
-                        {
-                            points.Remove(points[i]);
-                            matches++;
-                        }
-
-
+                        points.Remove(points[i]);
+                        matches++;
                     }
 
+
+                }
+                try
+                {
                     coordinatesAndValues.Add(currentPoint, matches);
+                }
+                catch
+                {
+                    Console.WriteLine("There we go we somehow did the impossible");
+                }
+                
 
                 currentPoint.X = 0;
                 currentPoint.Y = 0;
 
+            }
 
 
-                }
-          
 
-            
+
         }
 
 
@@ -137,7 +143,7 @@ namespace WindowsFormsAppvalll
 
                     default:
 
-                        image.SetPixel(coordinate.Key.X, coordinate.Key.Y, Color.Green);
+                        image.SetPixel(coordinate.Key.X, coordinate.Key.Y, Color.DarkKhaki);
 
                         break;
 
@@ -149,7 +155,7 @@ namespace WindowsFormsAppvalll
 
             }
 
-            
+            g.Flush();
             completeImage = image;
            
 
@@ -224,6 +230,10 @@ namespace WindowsFormsAppvalll
 
         public Bitmap getiImage()
         {
+
+
+            this.Points.Clear();
+
             return completeImage;
         }
 

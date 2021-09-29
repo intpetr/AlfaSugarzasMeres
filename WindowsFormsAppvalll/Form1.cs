@@ -23,6 +23,7 @@ using WindowsFormsAppvalll;
 using System.Threading;
 using System.IO;
 using System.Drawing.Imaging;
+using System.Windows.Media.Imaging;
 
 namespace AforgeCam
 {
@@ -57,7 +58,7 @@ namespace AforgeCam
         System.Drawing.Color color;
         float range = (float)0.2;
         Boolean on = false;
-
+        Bitmap saveImage;
         int finalresults = -1;
 
         List<int> measurements = new List<int>();
@@ -171,13 +172,14 @@ namespace AforgeCam
              
             if(fps == 1)
             {
-                
+
                  image((Bitmap)eventArgs.Frame.Clone());
 
                 fps = 0;
             }
 
             pictureBox1.Image = (Bitmap)eventArgs.Frame.Clone();
+            
             
             // image((Bitmap)eventArgs.Frame.Clone());
 
@@ -231,7 +233,7 @@ namespace AforgeCam
                
                 FinalVideo = new VideoCaptureDevice(VideoCaptureDevices[0].MonikerString);
                 FinalVideo.NewFrame += new NewFrameEventHandler(FinalVideo_NewFrame);
-
+                
 
 
 
@@ -349,6 +351,7 @@ namespace AforgeCam
             int count = 0;
             LockBitmap source = new LockBitmap(bmp),
                 target = new LockBitmap(newBitmap);
+            Console.WriteLine(bmp.Height);
             source.LockBits();
             target.LockBits();
 
@@ -466,50 +469,40 @@ namespace AforgeCam
             // coordinates.Add(new System.Drawing.Point(5, 5));
             Thread thread = new Thread(async () =>
             {
-
-                pictureBox1.Image = new visualizer(coordinates, 8000, 8000, System.Drawing.Color.Red).getiImage();
+                saveImage = new visualizer(coordinates, 640, 480, System.Drawing.Color.Red).getiImage();
+                pictureBox1.Image = saveImage;
 
             });
             thread.Start();
 
 
-           
 
 
-            
+            //640, 480
 
 
 
 
-            
-            
-            
-            
 
-           // MessageBox.Show(coordinates.ElementAt(coordinates.Count).X.ToString());
+
+
+
+
+
+            // MessageBox.Show(coordinates.ElementAt(coordinates.Count).X.ToString());
         }
 
         private async void button6_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("megnyomtad a gmobot");
+            
 
 
-
-            TextWriter txt = new StreamWriter("C:\\demo\\demo.txt");
+            TextWriter txt = new StreamWriter("C:\\sugarzas\\meresek.txt");
             txt.Write(eredmenyek);
             txt.Close();
 
-            Bitmap thisimage;
-            thisimage = (Bitmap)pictureBox1.Image;
-            thisimage.Save("kep", ImageFormat.Bmp);
 
-
-
-
-
-
-
-            //pictureBox1.Image.Save("myfile.bmp", ImageFormat.Bmp);
+            saveImage.Save("C:\\sugarzas\\osszesites.bmp", ImageFormat.Jpeg);
 
             //saveDataToTxt();
         }
@@ -517,7 +510,7 @@ namespace AforgeCam
         public void saveData()
         {
             eredmenyek = eredmenyek+ "\nTávolság " + degreesTocm + " Pixelek  " + finalresults + " Idő " + textBox1.Text;
-
+            
         }
 
 
@@ -525,7 +518,7 @@ namespace AforgeCam
         public void saveDataToTxt()
         {
             // File.WriteAllText("adatok.txt", eredmenyek);
-
+            //depracated
         }
 
         private async void checkBox1_CheckedChanged(object sender, EventArgs e)
