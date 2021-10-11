@@ -1,6 +1,8 @@
 <h1>Alfa sug&aacute;rz&aacute;s kvalitat&iacute;v &eacute;s kvantitat&iacute;v vizsg&aacute;lata LEGO EV3 robottal</h1>
 <p>&nbsp;</p>
 
+Kattints a képre a videó megtekintéséhez.
+
 [![Watch the video](https://img.youtube.com/vi/2pMdkBvxVBI/maxresdefault.jpg)](https://youtu.be/2pMdkBvxVBI)
 
 <p>&nbsp;</p>
