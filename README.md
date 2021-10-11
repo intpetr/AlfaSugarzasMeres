@@ -2,6 +2,7 @@
 <p>&nbsp;</p>
 
 <p style="text-align: right;"><em>Kattints a k&eacute;pre a vide&oacute; megtekint&eacute;s&eacute;hez.</em></p>
+
 [![Watch the video](https://img.youtube.com/vi/2pMdkBvxVBI/maxresdefault.jpg)](https://youtu.be/2pMdkBvxVBI)
 
 <p>&nbsp;</p>
