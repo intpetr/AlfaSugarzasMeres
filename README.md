@@ -1,6 +1,11 @@
 <h1>Alfa sug&aacute;rz&aacute;s kvalitat&iacute;v &eacute;s kvantitat&iacute;v vizsg&aacute;lata LEGO EV3 robottal</h1>
 <p>&nbsp;</p>
 <h3>&nbsp;</h3>
+
+[![Watch the video](https://www.youtube.com/watch?v=2pMdkBvxVBI)](https://www.youtube.com/watch?v=2pMdkBvxVBI)
+
+
+<h3>&nbsp;</h3>
 <p>&nbsp;</p>
 <h3><strong>Projekt bemutat&aacute;sa</strong></h3>
 <p>Egy olyan berendez&eacute;st &aacute;ll&iacute;tottunk elő, amely sz&aacute;mszerű &ouml;sszef&uuml;gg&eacute;st &aacute;ll&iacute;t fel az alfa sug&aacute;rz&aacute;s intenzit&aacute;s&aacute;ra. Kimutatja, hogy a becsap&oacute;d&aacute;sok intenzit&aacute;sa f&uuml;gg a t&aacute;vols&aacute;gt&oacute;l. Az eszk&ouml;z egy LEGO EV3 robottal t&aacute;mogatott berendez&eacute;s, amely kamer&aacute;val van felszerelve. A motor seg&iacute;ts&eacute;g&eacute;vel a radioakt&iacute;v t&aacute;rgy centim&eacute;terenk&eacute;nt k&ouml;zel&iacute;thető &eacute;s t&aacute;vol&iacute;that&oacute; a kamer&aacute;t&oacute;l sz&aacute;m&iacute;t&oacute;g&eacute;pről ir&aacute;ny&iacute;tva. A kamera k&eacute;p&eacute;n az&nbsp; alfa-sug&aacute;rz&aacute;s apr&oacute; pixelv&aacute;ltoz&aacute;sokat eredm&eacute;nyez, melyen, ha k&eacute;pfelismerő programmal vizsg&aacute;ljuk, tudjuk sz&aacute;molni a becsap&oacute;d&aacute;sok sz&aacute;m&aacute;t. Megfigyelhetj&uuml;k azt, hogy a t&aacute;vols&aacute;g v&aacute;ltoz&aacute;s&aacute;val a becsap&oacute;d&aacute;s intenzit&aacute;sa cs&ouml;kken. Teh&aacute;t az alfa sug&aacute;rz&aacute;s minős&eacute;gi &eacute;s mennyis&eacute;gi vizsg&aacute;lat&aacute;t tudjuk elv&eacute;gezni.</p>
